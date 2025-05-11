@@ -1,8 +1,12 @@
 import './App.css';
-import AspectRatioCalculator from './AspectRatioCalculator';
+import AspectRatioCalculator from './components/AspectRatioCalculator';
 
-const App = () => {
-  return <AspectRatioCalculator />;
-};
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <AspectRatioCalculator />
+    </div>
+  );
+}
 
 export default App;
