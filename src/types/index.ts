@@ -3,7 +3,8 @@
 export type CalculatorMode =
   | 'dimension-to-ratio'
   | 'width-to-height'
-  | 'height-to-width';
+  | 'height-to-width'
+  | 'image-to-ratio';
 
 export interface AspectRatioResult {
   aspectRatio: string;
@@ -57,7 +58,14 @@ export interface ResultDisplayProps {
 }
 
 export interface CssCodeDisplayProps {
-  cssCode: string;
+  mode: CalculatorMode;
+  width: string;
+  height: string;
+  aspectRatio: string;
+  ratioWidth: string;
+  ratioHeight: string;
+  calculatedHeight: string;
+  calculatedWidth: string;
 }
 
 // Using Record<never, never> instead of empty interface

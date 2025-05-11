@@ -3,9 +3,9 @@ import { useDimensionToRatio } from '../../hooks/useDimensionToRatio';
 import { useHeightToWidth } from '../../hooks/useHeightToWidth';
 import { useWidthToHeight } from '../../hooks/useWidthToHeight';
 import type { CalculatorMode } from '../../types';
-import { CSS_UNITS, generateCssCode } from '../../utils/calculations';
 
 import CssCodeDisplay from './CssCodeDisplay';
+import ImageInput from './ImageInput.tsx'; // Ensure this path is correct and the file exists
 import DimensionToRatioForm from './InputForms/DimensionToRatioForm';
 import HeightToWidthForm from './InputForms/HeightToWidthForm';
 import WidthToHeightForm from './InputForms/WidthToHeightForm';
@@ -13,15 +13,11 @@ import ModeSelector from './ModeSelector';
 import ResultDisplay from './ResultDisplay';
 import ThemeToggle from './ThemeToggle';
 import UnitExplanation from './UnitExplanation';
-import UnitSelector from './UnitSelector';
 
 export const AspectRatioCalculator = () => {
   // Mode state
   const [mode, setMode] = useState<CalculatorMode>('dimension-to-ratio');
   const [formKey, setFormKey] = useState(0); // For animation resets
-
-  // CSS output unit
-  const [outputUnit, setOutputUnit] = useState('px');
 
   // Custom hooks for different calculation modes
   const dimensionToRatio = useDimensionToRatio();
@@ -31,27 +27,13 @@ export const AspectRatioCalculator = () => {
   // Handle mode change
   const handleModeChange = (newMode: CalculatorMode) => {
     setMode(newMode);
-    setFormKey(prevKey => prevKey + 1); // Trigger animation on mode change
+    setFormKey((prevKey) => prevKey + 1); // Trigger animation on mode change
+    // Reset inputs when mode changes to or from image-to-ratio
+    if (newMode === 'image-to-ratio' || mode === 'image-to-ratio') {
+      dimensionToRatio.setWidth('');
+      dimensionToRatio.setHeight('');
+    }
   };
-
-  // Generate CSS code based on the current mode and values
-  const cssCode = generateCssCode(
-    mode,
-    mode === 'width-to-height' ? widthToHeight.width : dimensionToRatio.width,
-    mode === 'height-to-width' ? heightToWidth.height : dimensionToRatio.height,
-    dimensionToRatio.aspectRatio,
-    outputUnit,
-    mode === 'width-to-height'
-      ? widthToHeight.ratioWidth
-      : heightToWidth.ratioWidth,
-    mode === 'width-to-height'
-      ? widthToHeight.ratioHeight
-      : heightToWidth.ratioHeight,
-    widthToHeight.calculatedHeight,
-    heightToWidth.calculatedWidth,
-    heightToWidth.ratioWidth,
-    heightToWidth.ratioHeight,
-  );
 
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto transition-colors duration-300">
@@ -66,54 +48,63 @@ export const AspectRatioCalculator = () => {
 
         {/* Main content - responsive layout */}
         <div className="card-body w-full p-5">
-          <div className="flex flex-col md:flex-row md:flex-wrap gap-6">
-            {/* Left Column (Form Inputs) */}
-            <div key={formKey} className="w-full md:w-[calc(50%-0.75rem)] card bg-base-100 shadow-md border border-base-300 animate-fade-in">
-              <div className="card-body">
-                <h2 className="card-title text-primary">Enter Values</h2>
-                {/* Render the appropriate form based on mode */}
-                {mode === 'dimension-to-ratio' && (
-                  <DimensionToRatioForm
-                    width={dimensionToRatio.width}
-                    height={dimensionToRatio.height}
-                    onWidthChange={dimensionToRatio.setWidth}
-                    onHeightChange={dimensionToRatio.setHeight}
-                  />
-                )}
-                {mode === 'width-to-height' && (
-                  <WidthToHeightForm
-                    width={widthToHeight.width}
-                    ratioWidth={widthToHeight.ratioWidth}
-                    ratioHeight={widthToHeight.ratioHeight}
-                    onWidthChange={widthToHeight.setWidth}
-                    onRatioWidthChange={widthToHeight.setRatioWidth}
-                    onRatioHeightChange={widthToHeight.setRatioHeight}
-                  />
-                )}
-                {mode === 'height-to-width' && (
-                  <HeightToWidthForm
-                    height={heightToWidth.height}
-                    ratioWidth={heightToWidth.ratioWidth}
-                    ratioHeight={heightToWidth.ratioHeight}
-                    onHeightChange={heightToWidth.setHeight}
-                    onRatioWidthChange={heightToWidth.setRatioWidth}
-                    onRatioHeightChange={heightToWidth.setRatioHeight}
-                  />
-                )}
-
-                {/* CSS Output Unit Selection */}
-                <UnitSelector
-                  selectedUnit={outputUnit}
-                  units={CSS_UNITS}
-                  onUnitChange={setOutputUnit}
-                />
+          <div className="flex flex-col gap-6">
+            {/* First row: Input Form and Results */}
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* Left Column (Form Inputs) */}
+              <div
+                key={formKey}
+                className="w-full md:w-1/2 card bg-base-100 shadow-md border border-base-300 animate-fade-in"
+              >
+                <div className="card-body">
+                  <h2 className="card-title text-primary">Enter Values</h2>
+                  {/* Render the appropriate form based on mode */}
+                  {mode === 'dimension-to-ratio' && (
+                    <DimensionToRatioForm
+                      width={dimensionToRatio.width}
+                      height={dimensionToRatio.height}
+                      onWidthChange={dimensionToRatio.setWidth}
+                      onHeightChange={dimensionToRatio.setHeight}
+                    />
+                  )}
+                  {mode === 'image-to-ratio' && (
+                    <ImageInput
+                      onImageLoad={(width: number, height: number) => {
+                        // Add types here
+                        dimensionToRatio.setWidth(width.toString());
+                        dimensionToRatio.setHeight(height.toString());
+                        // Switch to dimension-to-ratio mode to show results // Removed this line: setMode('dimension-to-ratio');
+                      }}
+                    />
+                  )}
+                  {mode === 'width-to-height' && (
+                    <WidthToHeightForm
+                      width={widthToHeight.width}
+                      ratioWidth={widthToHeight.ratioWidth}
+                      ratioHeight={widthToHeight.ratioHeight}
+                      onWidthChange={widthToHeight.setWidth}
+                      onRatioWidthChange={widthToHeight.setRatioWidth}
+                      onRatioHeightChange={widthToHeight.setRatioHeight}
+                    />
+                  )}
+                  {mode === 'height-to-width' && (
+                    <HeightToWidthForm
+                      height={heightToWidth.height}
+                      ratioWidth={heightToWidth.ratioWidth}
+                      ratioHeight={heightToWidth.ratioHeight}
+                      onHeightChange={heightToWidth.setHeight}
+                      onRatioWidthChange={heightToWidth.setRatioWidth}
+                      onRatioHeightChange={heightToWidth.setRatioHeight}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* Right Column (Results) */}
-            <div className="w-full md:w-[calc(50%-0.75rem)] flex flex-col gap-6">
-              {/* Results based on mode */}
-              <div key={`result-${formKey}`} className="card bg-base-100 shadow-md border border-base-300 animate-fade-in">
+              {/* Right Column (Results) */}
+              <div
+                key={`result-${formKey}`}
+                className="w-full md:w-1/2 card bg-base-100 shadow-md border border-base-300 animate-fade-in"
+              >
                 <div className="card-body">
                   <ResultDisplay
                     mode={mode}
@@ -125,19 +116,50 @@ export const AspectRatioCalculator = () => {
                   />
                 </div>
               </div>
-
-              {/* CSS Code Display */}
-              <div key={`css-${formKey}`} className="card bg-base-100 shadow-md border border-base-300 animate-fade-in">
-                <div className="card-body">
-                  <CssCodeDisplay cssCode={cssCode} />
-                </div>
-              </div>
             </div>
 
-            {/* Full Width Footer (Unit Explanation) */}
-            <div className="w-full card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-all">
-              <div className="card-body">
-                <UnitExplanation />
+            {/* Second row: CSS Code Display and Unit Explanation */}
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* Left Column (CSS Code Display) */}
+              <div
+                key={`css-${formKey}`}
+                className="w-full md:w-1/2 card bg-base-100 shadow-md border border-base-300 animate-fade-in"
+              >
+                <div className="card-body">
+                  <CssCodeDisplay
+                    mode={mode}
+                    width={
+                      mode === 'width-to-height'
+                        ? widthToHeight.width
+                        : dimensionToRatio.width
+                    }
+                    height={
+                      mode === 'height-to-width'
+                        ? heightToWidth.height
+                        : dimensionToRatio.height
+                    }
+                    aspectRatio={dimensionToRatio.aspectRatio}
+                    ratioWidth={
+                      mode === 'width-to-height'
+                        ? widthToHeight.ratioWidth
+                        : heightToWidth.ratioWidth
+                    }
+                    ratioHeight={
+                      mode === 'width-to-height'
+                        ? widthToHeight.ratioHeight
+                        : heightToWidth.ratioHeight
+                    }
+                    calculatedHeight={widthToHeight.calculatedHeight}
+                    calculatedWidth={heightToWidth.calculatedWidth}
+                  />
+                </div>
+              </div>
+
+              {/* Right Column (Unit Explanation) */}
+              <div className="w-full md:w-1/2 card bg-base-100 shadow-md border border-base-300 hover:shadow-lg transition-all">
+                <div className="card-body">
+                  <UnitExplanation />
+                </div>
               </div>
             </div>
 

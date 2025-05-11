@@ -19,12 +19,15 @@ export const DimensionToRatioForm = ({
     <div className="flex flex-col w-full">
       <div className="flex flex-row mb-4 gap-4">
         <div className="w-1/2">
-          <label
-            className="label"
-            htmlFor="width"
-          >
+          <label className="label" htmlFor="width">
             <span className="label-text font-medium text-sm flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-secondary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 mr-1 text-secondary"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
                 <title>Width Icon</title>
                 <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8z" />
                 <path d="M12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />
@@ -44,12 +47,15 @@ export const DimensionToRatioForm = ({
           />
         </div>
         <div className="w-1/2">
-          <label
-            className="label"
-            htmlFor="height"
-          >
+          <label className="label" htmlFor="height">
             <span className="label-text font-medium text-sm flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-accent" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 mr-1 text-accent"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
                 <title>Height Icon</title>
                 <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12z" />
                 <path d="M15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />

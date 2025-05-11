@@ -131,15 +131,16 @@ export const generateCssCode = (
   ratioHeightAlt: string,
 ) => {
   if (
-    (mode === 'dimension-to-ratio' && aspectRatio === 'Invalid input') ||
+    ((mode === 'dimension-to-ratio' || mode === 'image-to-ratio') &&
+      aspectRatio === 'Invalid input') ||
     (mode === 'width-to-height' && calculatedHeight === 'Invalid input') ||
     (mode === 'height-to-width' && calculatedWidth === 'Invalid input')
   ) {
     return '/* Invalid input */';
   }
 
-  // For dimension to ratio mode
-  if (mode === 'dimension-to-ratio') {
+  // For dimension to ratio mode and image to ratio mode
+  if (mode === 'dimension-to-ratio' || mode === 'image-to-ratio') {
     return `.element {
   width: ${width}${outputUnit};
   height: ${height}${outputUnit};
