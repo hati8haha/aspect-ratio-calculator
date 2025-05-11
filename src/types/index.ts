@@ -55,6 +55,8 @@ export interface ResultDisplayProps {
   decimalForm?: string;
   calculatedHeight?: string;
   calculatedWidth?: string;
+  ratioWidth?: string;
+  ratioHeight?: string;
 }
 
 export interface CssCodeDisplayProps {
