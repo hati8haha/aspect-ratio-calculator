@@ -11,6 +11,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions: # Added permissions block
+      contents: write # Allow to push to the gh-pages branch
 
     steps:
     - name: Checkout code
@@ -25,7 +27,6 @@ jobs:
       uses: pnpm/action-setup@v3
       with:
         version: 8
-
 
     - name: Install dependencies
       run: pnpm install
