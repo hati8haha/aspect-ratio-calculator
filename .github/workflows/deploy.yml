@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
 
 jobs:
   deploy:
@@ -16,7 +19,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '22'
+
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+
 
     - name: Install dependencies
       run: pnpm install
