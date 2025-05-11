@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hati8haha.github.io/aspect-ratio-calculator/sitemap.xml
