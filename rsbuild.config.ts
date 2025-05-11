@@ -13,6 +13,9 @@ export default defineConfig({
         },
       ],
     },
+    // Set the correct base path for GitHub Pages project site
+    // This ensures assets are loaded from /aspect-ratio-calculator/ instead of /
+    assetPrefix: '/aspect-ratio-calculator/',
   },
   html: {
     title: 'Aspect Ratio Calculator', // Default title

@@ -15,7 +15,10 @@ function App() {
         name="keywords"
         content="aspect ratio, calculator, dimensions, CSS, web design, responsive design, width, height"
       />
-      <link rel="canonical" href="https://hati8haha.github.io/aspect-ratio-calculator/" />
+      <link
+        rel="canonical"
+        href="https://hati8haha.github.io/aspect-ratio-calculator/"
+      />
       <AspectRatioCalculator />
     </div>
   );
