@@ -1,1 +1,224 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+/* Define missing Tailwind CSS variables */
+:root {
+  /* Animation and transition variables */
+  --tw-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --tw-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --tw-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --tw-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Typography variables */
+  --tw-leading: 1.5;
+  --tw-leading-tight: 1.25;
+  --tw-leading-snug: 1.375;
+  --tw-leading-normal: 1.5;
+  --tw-leading-relaxed: 1.625;
+  --tw-leading-loose: 2;
+  
+  /* Other common variables that might be needed */
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+}
+
+/* Theme colors using CSS variables for light mode and dark mode */
+:root {
+  /* Light mode colors - improved with modern color palette */
+  --color-primary: #0E7C78; /* Darker teal for better contrast */
+  --color-primary-focus: #086361; /* Even darker for focus states */
+  --color-primary-content: #ffffff;
+  
+  --color-secondary: #0A5E60; /* Darker secondary */
+  --color-secondary-focus: #064244; /* Darker focus state */
+  --color-secondary-content: #ffffff;
+  
+  --color-accent: #1D6E78; /* Darker accent color */
+  --color-accent-focus: #0E5660; /* Darker focus state */
+  --color-accent-content: #ffffff;
+  
+  --color-neutral: #424242;
+  --color-neutral-focus: #333333;
+  --color-neutral-content: #ffffff;
+  
+  /* Updated background colors for a more modern, clean look */
+  --color-base-100: #ffffff; /* Pure white background */
+  --color-base-200: #f8fafc; /* Very subtle off-white/blue tint */
+  --color-base-300: #e2e8f0; /* Subtle border color */
+  --color-base-content: #303030; /* Dark text for contrast */
+  
+  --color-info: #0277BD; /* Darker blue for better contrast */
+  --color-success: #2E7D32; /* Darker green for better contrast */
+  --color-warning: #EF6C00; /* Darker orange for better contrast */
+  --color-error: #C62828; /* Darker red for better contrast */
+}
+
+.dark {
+  --color-primary: #20B2AD; /* Slightly brighter in dark mode for visibility */
+  --color-primary-focus: #18908C; /* Slightly darker focus state */
+  --color-primary-content: #ffffff;
+  
+  --color-secondary: #26A69A; /* Adjusted for dark mode */
+  --color-secondary-focus: #00897B;
+  --color-secondary-content: #ffffff;
+  
+  --color-accent: #26C6DA; /* Adjusted for dark mode */
+  --color-accent-focus: #00ACC1;
+  --color-accent-content: #ffffff;
+  
+  --color-neutral: #757575;
+  --color-neutral-focus: #9E9E9E;
+  --color-neutral-content: #ffffff;
+  
+  /* Updated dark mode backgrounds for a sleek, modern look */
+  --color-base-100: #0f172a; /* Rich deep blue-black */
+  --color-base-200: #1e293b; /* Slightly lighter blue-gray */
+  --color-base-300: #334155; /* Medium blue-gray for borders */
+  --color-base-content: #f1f5f9; /* Light blue-gray text */
+  
+  --color-info: #29B6F6; /* Brighter in dark mode */
+  --color-success: #66BB6A;
+  --color-warning: #FFA726;
+  --color-error: #EF5350;
+}
+
+/* Global animation keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* Global styles */
+body {
+  @apply transition-colors duration-300 bg-gradient-to-br from-base-100 to-base-200 min-h-screen;
+  background-attachment: fixed;
+}
+
+/* Smooth transitions for all interactive elements */
+button, input, select, a {
+  @apply transition-all duration-200;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  @apply outline-primary outline-offset-2 ring-2 ring-primary/30 ring-offset-2;
+}
+
+/* Card hover effects */
+.card {
+  @apply transition-all duration-300 backdrop-blur-sm bg-white/80 dark:bg-base-100/80 border border-base-300/50;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  @apply border-primary/20;
+}
+
+/* Custom tab styling */
+.tabs-container {
+  @apply backdrop-blur-sm bg-base-100/90 border border-base-300/30 rounded-xl;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.tabs.tabs-boxed {
+  @apply bg-transparent justify-center p-2;
+}
+
+.tab {
+  @apply rounded-lg mx-1 py-2 px-4 font-medium;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.tab-active {
+  @apply shadow-md;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tab:not(.tab-active):hover {
+  @apply bg-primary/10;
+}
+
+/* Input and select focus animations */
+.input, .select {
+  @apply bg-white dark:bg-base-200 border border-base-300/50 shadow-sm transition-all;
+}
+
+.input:focus, .select:focus {
+  @apply border-primary/50 ring-2 ring-primary/20 animate-none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Badge animations */
+.badge {
+  @apply transition-all duration-200;
+}
+
+.badge:hover {
+  @apply scale-105;
+}
+
+/* Feedback animations */
+.feedback-animation {
+  animation: fadeIn 0.3s ease-out, slideUp 0.3s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-base-200;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/60 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-secondary;
+}
+
+/* Result display enhancements */
+.result-display {
+  @apply bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm border border-base-300/30 rounded-xl p-4;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Button enhancements */
+button {
+  @apply rounded-lg;
+}
+
+button.btn-primary {
+  background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-secondary));
+  @apply shadow-md hover:shadow-lg border-0;
+}
+
+/* Code display enhancements */
+pre.code-display {
+  @apply backdrop-blur-sm bg-base-200/90 border border-base-300/30 rounded-xl p-4 shadow-inner;
+}
+
+/* Modern input styles */
+.input, .select {
+  @apply shadow-sm;
+}

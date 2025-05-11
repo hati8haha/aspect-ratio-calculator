@@ -1,10 +1,20 @@
 import './App.css';
-// import { Helmet } from 'react-helmet-async'; // No longer needed
+import { useEffect } from 'react';
 import AspectRatioCalculator from './components/AspectRatioCalculator';
 
 function App() {
+  useEffect(() => {
+    // Initialize theme from localStorage or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-base-100 transition-colors duration-300">
       {/* React 19 native metadata tags */}
       <title>Aspect Ratio Calculator - Calculate Ratios and Dimensions</title>
       <meta
