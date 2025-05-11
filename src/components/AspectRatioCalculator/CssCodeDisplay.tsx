@@ -1,120 +1,34 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { CssCodeDisplayProps } from '../../types';
+import type { CssToken } from '../../types/cssTokens';
+import { parseCssToTokens, TOKEN_STYLES } from '../../utils/cssParser';
 
-type CssToken = {
-  text: string;
-  type: 'property' | 'separator' | 'value' | 'punctuation' | 'normal';
-};
+/**
+ * Renders a token with appropriate styling
+ */
+const renderToken = (token: CssToken, index: number) => (
+  <span 
+    key={`token-${index}`} 
+    className={TOKEN_STYLES[token.type]}
+  >
+    {token.text}
+  </span>
+);
 
 export const CssCodeDisplay = ({ cssCode }: CssCodeDisplayProps) => {
   const [copied, setCopied] = useState(false);
+
+  // Memoize token parsing to prevent unnecessary recalculations
+  const highlightedCss = useMemo(() => {
+    const tokens = parseCssToTokens(cssCode);
+    return tokens.map(renderToken);
+  }, [cssCode]);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(cssCode).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
-  };
-
-  // Parse CSS code into tokens for safe rendering
-  const parseCssToTokens = (code: string): CssToken[] => {
-    const tokens: CssToken[] = [];
-    
-    // Split the CSS code into lines for processing
-    const lines = code.split('\n');
-    
-    lines.forEach((line, lineIndex) => {
-      // Add a line break token if not the first line
-      if (lineIndex > 0) {
-        tokens.push({ text: '\n', type: 'normal' });
-      }
-      
-      // Skip empty lines
-      if (!line.trim()) {
-        return;
-      }
-      
-      // Match CSS properties, values, and punctuation
-      const propertyRegex = /([a-zA-Z-]+)(\s*:\s*)([^;]+)(;?)/g;
-      const punctuationRegex = /(@[a-zA-Z-]+|\{|\}|,|\(|\))/g;
-      
-      // Try to match a CSS property pattern
-      const propertyMatch = propertyRegex.exec(line);
-      
-      if (propertyMatch) {
-        // Property name
-        tokens.push({ text: propertyMatch[1], type: 'property' });
-        
-        // Separator (:)
-        tokens.push({ text: propertyMatch[2], type: 'separator' });
-        
-        // Value
-        tokens.push({ text: propertyMatch[3], type: 'value' });
-        
-        // Semicolon (;)
-        if (propertyMatch[4]) {
-          tokens.push({ text: propertyMatch[4], type: 'punctuation' });
-        }
-      } else {
-        // Check for punctuation
-        const fullText = line;
-        let lastIndex = 0;
-        
-        punctuationRegex.lastIndex = 0;
-        let punctuationMatch: RegExpExecArray | null;
-        
-        // Process matches one at a time
-        punctuationMatch = punctuationRegex.exec(fullText);
-        while (punctuationMatch !== null) {
-          // Add text before the punctuation
-          if (punctuationMatch.index > lastIndex) {
-            tokens.push({
-              text: fullText.substring(lastIndex, punctuationMatch.index),
-              type: 'normal'
-            });
-          }
-          
-          // Add the punctuation token
-          tokens.push({
-            text: punctuationMatch[0],
-            type: 'punctuation'
-          });
-          
-          lastIndex = punctuationRegex.lastIndex;
-          
-          // Get next match
-          punctuationMatch = punctuationRegex.exec(fullText);
-        }
-      }
-    });
-    
-    return tokens;
-  };
-
-  // Render a token with appropriate styling
-  const renderToken = (token: CssToken, index: number) => {
-    const tokenStyles: Record<string, string> = {
-      property: 'text-[#A5D6FF] dark:text-[#88DDFF]',
-      separator: 'text-[#E1E1E1] dark:text-[#E1E1E1]',
-      value: 'text-[#FFAB70] dark:text-[#FFCC95]',
-      punctuation: 'text-[#F97583] dark:text-[#FF7B93]',
-      normal: ''
-    };
-    
-    return (
-      <span 
-        key={`token-${index}`} 
-        className={tokenStyles[token.type]}
-      >
-        {token.text}
-      </span>
-    );
-  };
-
-  // Parse CSS code into tokens and map to React elements
-  const renderHighlightedCss = (cssCode: string) => {
-    const tokens = parseCssToTokens(cssCode);
-    return tokens.map((token, index) => renderToken(token, index));
   };
 
   return (
@@ -160,7 +74,7 @@ export const CssCodeDisplay = ({ cssCode }: CssCodeDisplayProps) => {
       <div className="code-display mockup-code bg-[#1A1A1A] text-[#FFFFFF] dark:bg-[#0D1117] dark:text-[#F0F6FC] rounded-md p-4 font-mono text-sm overflow-x-auto relative group">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#48CFCB]/5 to-[#229799]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <pre className="relative z-10 whitespace-pre-wrap break-all">
-          {renderHighlightedCss(cssCode)}
+          {highlightedCss}
         </pre>
       </div>
     </div>
