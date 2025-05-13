@@ -34,7 +34,7 @@ jobs:
     - name: Build project
       run: pnpm build
       env:
-        VITE_HOTJAR_SITE_ID: $VITE_HOTJAR_SITE_ID
+        PUBLIC_HOTJAR_SITE_ID: $PUBLIC_HOTJAR_SITE_ID
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

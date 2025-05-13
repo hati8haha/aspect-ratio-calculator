@@ -14,15 +14,21 @@ export const ResultDisplay = ({
   ratioHeight,
 }: ResultDisplayProps) => {
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
-  
+
   // Track successful calculations
   useEffect(() => {
     // Check if we have a valid calculation based on mode
-    const hasValidResult = 
-      (mode === 'dimension-to-ratio' && aspectRatio && aspectRatio !== 'Invalid input') ||
-      (mode === 'width-to-height' && calculatedHeight && calculatedHeight !== 'Invalid input') ||
-      (mode === 'height-to-width' && calculatedWidth && calculatedWidth !== 'Invalid input');
-    
+    const hasValidResult =
+      (mode === 'dimension-to-ratio' &&
+        aspectRatio &&
+        aspectRatio !== 'Invalid input') ||
+      (mode === 'width-to-height' &&
+        calculatedHeight &&
+        calculatedHeight !== 'Invalid input') ||
+      (mode === 'height-to-width' &&
+        calculatedWidth &&
+        calculatedWidth !== 'Invalid input');
+
     if (hasValidResult) {
       trackCalculation(mode);
     }

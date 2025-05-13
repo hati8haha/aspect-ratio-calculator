@@ -20,4 +20,12 @@ export default defineConfig({
   html: {
     title: 'Aspect Ratio Calculator', // Default title
   },
+  source: {
+    define: {
+      // Explicitly define environment variables that should be available in production
+      'import.meta.env.PUBLIC_HOTJAR_SITE_ID': JSON.stringify(
+        process.env.PUBLIC_HOTJAR_SITE_ID || '3979881',
+      ),
+    },
+  },
 });

@@ -60,7 +60,7 @@ This project includes analytics and visitor recording via Hotjar to help improve
 
 1. Configure analytics by updating the Hotjar Site ID in `.env`:
    ```
-    VITE_HOTJAR_SITE_ID=3979881  // replace your hotjar site id
+    PUBLIC_HOTJAR_SITE_ID=3979881  // replace with your hotjar site id
    ```
 
 2. Analytics features only run in production mode (`process.env.NODE_ENV === 'production'`).

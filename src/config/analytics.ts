@@ -4,7 +4,9 @@
  */
 
 // Analytics service IDs
-export const HOTJAR_SITE_ID = Number(import.meta.env.VITE_HOTJAR_SITE_ID) || 3979881; // Use env var or fallback
+export const HOTJAR_SITE_ID = Number(
+  import.meta.env.PUBLIC_HOTJAR_SITE_ID || '3979881',
+); // Use env var or fallback
 export const HOTJAR_VERSION = 6; // Hotjar script version
 
 // Feature flags
@@ -21,15 +23,15 @@ export const RECORDING_ENABLED_KEY = 'recording-enabled';
 export const EVENTS = {
   // Calculation events
   CALCULATION_COMPLETE: 'calculation_complete',
-  
+
   // UI interaction events
   CSS_CODE_COPIED: 'css_code_copied',
   THEME_TOGGLED: 'theme_toggled',
   MODE_CHANGED: 'mode_changed',
-  
+
   // Form interaction events
   INPUT_CHANGED: 'input_changed',
-  
+
   // User engagement events
   PRIVACY_SETTINGS_CHANGED: 'privacy_settings_changed',
 };
