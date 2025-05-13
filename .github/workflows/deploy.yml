@@ -11,8 +11,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions: # Added permissions block
-      contents: write # Allow to push to the gh-pages branch
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout code
@@ -33,6 +33,8 @@ jobs:
 
     - name: Build project
       run: pnpm build
+      env:
+        VITE_HOTJAR_SITE_ID: $VITE_HOTJAR_SITE_ID
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

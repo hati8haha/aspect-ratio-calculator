@@ -1,8 +1,14 @@
 import './App.css';
 import { useEffect } from 'react';
 import AspectRatioCalculator from './components/AspectRatioCalculator';
+import PrivacyBanner from './components/PrivacyBanner';
+import PrivacySettings from './components/PrivacySettings';
+import { useAnalytics } from './hooks/useAnalytics';
 
 function App() {
+  // Initialize website visitor recording and analytics
+  useAnalytics();
+
   useEffect(() => {
     // Initialize theme from localStorage or default to light
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -30,6 +36,8 @@ function App() {
         href="https://hati8haha.github.io/aspect-ratio-calculator/"
       />
       <AspectRatioCalculator />
+      <PrivacyBanner />
+      <PrivacySettings />
     </div>
   );
 }

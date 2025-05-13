@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import type { ModeSelectorProps } from '../../types';
+import type { CalculatorMode, ModeSelectorProps } from '../../types';
+import { trackModeChange } from '../../utils/analytics';
 
 export const ModeSelector = ({ mode, onModeChange }: ModeSelectorProps) => {
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+
+  // Handler for mode change that includes analytics tracking
+  const handleModeChange = (newMode: CalculatorMode) => {
+    onModeChange(newMode);
+    trackModeChange(newMode);
+  };
 
   return (
     <div className="w-full px-6 py-4 bg-transparent backdrop-blur-sm border-b border-base-300/30 transition-all duration-300">
@@ -20,7 +27,7 @@ export const ModeSelector = ({ mode, onModeChange }: ModeSelectorProps) => {
                 ? 'bg-primary/10'
                 : 'bg-white/70 dark:bg-base-200/70'
           }`}
-          onClick={() => onModeChange('dimension-to-ratio')}
+          onClick={() => handleModeChange('dimension-to-ratio')}
           onMouseEnter={() => setHoveredTab('dimension-to-ratio')}
           onMouseLeave={() => setHoveredTab(null)}
           aria-selected={mode === 'dimension-to-ratio'}
@@ -53,7 +60,7 @@ export const ModeSelector = ({ mode, onModeChange }: ModeSelectorProps) => {
                 ? 'bg-secondary/10'
                 : 'bg-white/70 dark:bg-base-200/70'
           }`}
-          onClick={() => onModeChange('width-to-height')}
+          onClick={() => handleModeChange('width-to-height')}
           onMouseEnter={() => setHoveredTab('width-to-height')}
           onMouseLeave={() => setHoveredTab(null)}
           aria-selected={mode === 'width-to-height'}
@@ -86,7 +93,7 @@ export const ModeSelector = ({ mode, onModeChange }: ModeSelectorProps) => {
                 ? 'bg-accent/10'
                 : 'bg-white/70 dark:bg-base-200/70'
           }`}
-          onClick={() => onModeChange('height-to-width')}
+          onClick={() => handleModeChange('height-to-width')}
           onMouseEnter={() => setHoveredTab('height-to-width')}
           onMouseLeave={() => setHoveredTab(null)}
           aria-selected={mode === 'height-to-width'}
@@ -119,7 +126,7 @@ export const ModeSelector = ({ mode, onModeChange }: ModeSelectorProps) => {
                 ? 'bg-info/10'
                 : 'bg-white/70 dark:bg-base-200/70'
           }`}
-          onClick={() => onModeChange('image-to-ratio')}
+          onClick={() => handleModeChange('image-to-ratio')}
           onMouseEnter={() => setHoveredTab('image-to-ratio')}
           onMouseLeave={() => setHoveredTab(null)}
           aria-selected={mode === 'image-to-ratio'}

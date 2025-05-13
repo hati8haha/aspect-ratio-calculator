@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { trackThemeToggle } from '../../utils/analytics';
 
 export const ThemeToggle = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -17,7 +18,10 @@ export const ThemeToggle = () => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    // Track theme toggle in analytics
+    trackThemeToggle(newTheme);
   };
 
   return (

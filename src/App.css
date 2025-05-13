@@ -204,6 +204,19 @@ a {
   animation: fadeIn 0.3s ease-out, slideUp 0.3s ease-out;
 }
 
+/* Add animation utility classes */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-pulse-once {
+  animation: pulse 2s ease-in-out;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

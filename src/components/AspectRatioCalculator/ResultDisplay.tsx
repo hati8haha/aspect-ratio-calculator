@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ResultDisplayProps } from '../../types';
+import { trackCalculation } from '../../utils/analytics';
 
 export const ResultDisplay = ({
   mode,
@@ -13,6 +14,19 @@ export const ResultDisplay = ({
   ratioHeight,
 }: ResultDisplayProps) => {
   const [copiedValue, setCopiedValue] = useState<string | null>(null);
+  
+  // Track successful calculations
+  useEffect(() => {
+    // Check if we have a valid calculation based on mode
+    const hasValidResult = 
+      (mode === 'dimension-to-ratio' && aspectRatio && aspectRatio !== 'Invalid input') ||
+      (mode === 'width-to-height' && calculatedHeight && calculatedHeight !== 'Invalid input') ||
+      (mode === 'height-to-width' && calculatedWidth && calculatedWidth !== 'Invalid input');
+    
+    if (hasValidResult) {
+      trackCalculation(mode);
+    }
+  }, [mode, aspectRatio, calculatedHeight, calculatedWidth]);
 
   const copyToClipboard = (value: string, label: string) => {
     navigator.clipboard.writeText(value).then(() => {

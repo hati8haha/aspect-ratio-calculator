@@ -73,6 +73,11 @@ export const CssCodeDisplay = ({
     navigator.clipboard.writeText(cssCode).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      
+      // Track CSS copy in analytics
+      import('../../utils/analytics').then(({ trackCssCopy }) => {
+        trackCssCopy();
+      });
     });
   };
 

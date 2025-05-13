@@ -9,6 +9,8 @@ A responsive React-based web application for calculating aspect ratios, dimensio
 - **CSS Code Generation**: Generate CSS code for the calculated dimensions and aspect ratios.
 - **Responsive Design**: Fully responsive layout for all devices.
 - **Modern Tooling**: Built with TypeScript, TailwindCSS, and RSBuild.
+- **User Analytics**: Includes visitor recording and event tracking to improve user experience.
+- **Privacy Controls**: Users can manage their privacy preferences and opt out of analytics.
 
 ## Installation
 
@@ -51,6 +53,21 @@ pnpm preview
 ## Deployment
 
 This project is automatically deployed to GitHub Pages using GitHub Actions. Any push to the `main` branch triggers a deployment.
+
+## Analytics and Visitor Recording
+
+This project includes analytics and visitor recording via Hotjar to help improve the user experience:
+
+1. Configure analytics by updating the Hotjar Site ID in `.env`:
+   ```
+    VITE_HOTJAR_SITE_ID=3979881  // replace your hotjar site id
+   ```
+
+2. Analytics features only run in production mode (`process.env.NODE_ENV === 'production'`).
+
+3. Users can opt out of analytics and recording via the privacy settings.
+
+For more details, see the [visitor recording documentation](./docs/visitor-recording.md).
 
 ## License
 
