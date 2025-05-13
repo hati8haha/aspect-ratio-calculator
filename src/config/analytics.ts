@@ -5,7 +5,7 @@
 
 // Analytics service IDs
 export const HOTJAR_SITE_ID = Number(
-  import.meta.env.PUBLIC_HOTJAR_SITE_ID || '3979881',
+  process.env.PUBLIC_HOTJAR_SITE_ID || '3979881',
 ); // Use env var or fallback
 export const HOTJAR_VERSION = 6; // Hotjar script version
 
