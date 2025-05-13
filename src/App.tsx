@@ -4,16 +4,12 @@ import AspectRatioCalculator from './components/AspectRatioCalculator';
 import PrivacyBanner from './components/PrivacyBanner';
 import PrivacySettings from './components/PrivacySettings';
 import { useAnalytics } from './hooks/useAnalytics';
-import { logEnvironmentInfo } from './utils/debug';
 
 function App() {
   // Initialize website visitor recording and analytics
   useAnalytics();
 
   useEffect(() => {
-    // Log environment variables to help debug issues
-    logEnvironmentInfo();
-
     // Initialize theme from localStorage or default to light
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
